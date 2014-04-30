@@ -2,7 +2,7 @@
 <feature
       id="net.jeeeyul.eclipse.themes.feature"
       label="Jeeeyul&apos;s Themes"
-      version="2.0.0.qualifier"
+      version="2.1.6.qualifier"
       provider-name="Jeeeyul@gmail.com">
 
    <description url="https://github.com/jeeeyul/eclipse-themes">
@@ -87,7 +87,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </license>
 
    <url>
-      <update label="Jeeeyul&apos;s Eclipse Plugins" url="http://jeeeyul.github.io/update"/>
+      <update label="Jeeeyul&apos;s Eclipse Plugins" url="http://eclipse.jeeeyul.net/update"/>
    </url>
 
    <requires>
@@ -99,13 +99,16 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.eclipse.e4.core.di" version="1.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.e4.ui.css.swt" version="0.10.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.e4.core.services" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.e4.ui.workbench" version="0.10.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.osgi.services" version="3.3.100" match="greaterOrEqual"/>
       <import plugin="org.w3c.css.sac" version="1.3.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.e4.ui.model.workbench"/>
-      <import plugin="net.jeeeyul.swtend" version="1.2.2" match="greaterOrEqual"/>
-      <import feature="net.jeeeyul.swtend.feature" version="1.2.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.e4.core.contexts"/>
+      <import plugin="javax.inject" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="javax.annotation"/>
+      <import feature="net.jeeeyul.swtend.feature" version="2.2.1" match="greaterOrEqual"/>
+      <import plugin="net.jeeeyul.swtend" version="2.2.1" match="greaterOrEqual"/>
    </requires>
 
    <plugin

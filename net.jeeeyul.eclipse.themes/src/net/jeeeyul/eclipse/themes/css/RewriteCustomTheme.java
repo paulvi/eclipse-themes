@@ -4,6 +4,8 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.jeeeyul.eclipse.themes.JThemesCore;
+
 import org.eclipse.e4.ui.css.core.dom.ExtendedCSSRule;
 import org.eclipse.e4.ui.css.core.dom.ExtendedDocumentCSS;
 import org.eclipse.e4.ui.css.core.engine.CSSEngine;
@@ -17,25 +19,33 @@ import org.w3c.dom.stylesheets.StyleSheet;
 import org.w3c.dom.stylesheets.StyleSheetList;
 
 /**
- * re-generate "chrome.css" and replace with existing style sheet.
+ * re-generate "jeeeyul-custom.css" and replace with existing style sheet.
  * 
  * @author Jeeeyul
  * @since 1.2
  */
 @SuppressWarnings("restriction")
 public class RewriteCustomTheme {
+	/**
+	 * A selector text to detect custom theme sheet.
+	 * 
+	 * @see #findCustomThemeSheet(DocumentCSS)
+	 */
 	public static final String CUSTOM_THEME_FIRST_SELECTOR = "*[class=\"jeeeyul-custom-theme\"]";
 
 	private Display display = Display.getDefault();
 
+	/**
+	 * Rewrite "/css/jeeeyul-custom.css" with user preference.
+	 */
 	public void rewrite() {
 		try {
 			CSSEngine cssEngine = WidgetElement.getEngine(display);
 			ExtendedDocumentCSS documentCSS = (ExtendedDocumentCSS) cssEngine.getDocumentCSS();
 
-			StyleSheet chromeSheet = findChromeSheet(documentCSS);
+			StyleSheet customThemeSheet = findCustomThemeSheet(documentCSS);
 
-			CustomThemeGenerator generator = new CustomThemeGenerator();
+			CustomThemeGenerator generator = new CustomThemeGenerator(JThemesCore.getDefault().getPreferenceStore());
 
 			String newCSSContent = generator.generate().toString();
 			StyleSheet newSheet = cssEngine.parseStyleSheet(new StringReader(newCSSContent));
@@ -45,7 +55,7 @@ public class RewriteCustomTheme {
 
 			for (int i = 0; i < oldSheetList.getLength(); i++) {
 				StyleSheet oldSheet = oldSheetList.item(i);
-				if (oldSheet != chromeSheet) {
+				if (oldSheet != customThemeSheet) {
 					if (!newSheetList.contains(oldSheet))
 						newSheetList.add(oldSheet);
 				} else {
@@ -66,16 +76,17 @@ public class RewriteCustomTheme {
 	}
 
 	/**
-	 * find and returns a {@link StyleSheet} which represent "chrome.css".
+	 * find and returns a {@link StyleSheet} which represent
+	 * "jeeeyul-custom.css".
 	 * 
 	 * @param documentCSS
 	 * @return
 	 * @since 1.2
 	 */
-	private StyleSheet findChromeSheet(DocumentCSS documentCSS) {
-		StyleSheet chromeSheet = null;
+	private StyleSheet findCustomThemeSheet(DocumentCSS documentCSS) {
+		StyleSheet customThemeSheet = null;
 		StyleSheetList styleSheets = documentCSS.getStyleSheets();
-		SearchChromeSheet: for (int i = 0; i < styleSheets.getLength(); i++) {
+		SearchCustomThemeSheet: for (int i = 0; i < styleSheets.getLength(); i++) {
 			StyleSheet eachSheet = styleSheets.item(i);
 			if (eachSheet instanceof CSSStyleSheet) {
 				CSSRuleList cssRules = ((CSSStyleSheet) eachSheet).getCssRules();
@@ -84,13 +95,13 @@ public class RewriteCustomTheme {
 					SelectorList selectorList = rule.getSelectorList();
 					String selectorText = selectorList.item(0).toString();
 					if (CUSTOM_THEME_FIRST_SELECTOR.equals(selectorText)) {
-						chromeSheet = eachSheet;
-						break SearchChromeSheet;
+						customThemeSheet = eachSheet;
+						break SearchCustomThemeSheet;
 					}
 				}
 			}
 
 		}
-		return chromeSheet;
+		return customThemeSheet;
 	}
 }

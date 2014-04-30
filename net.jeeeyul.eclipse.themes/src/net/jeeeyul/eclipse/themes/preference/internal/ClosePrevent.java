@@ -1,32 +1,18 @@
 package net.jeeeyul.eclipse.themes.preference.internal;
 
-import org.eclipse.swt.custom.CTabFolder2Listener;
+import org.eclipse.swt.custom.CTabFolder2Adapter;
 import org.eclipse.swt.custom.CTabFolderEvent;
 
-public class ClosePrevent implements CTabFolder2Listener {
-
-	public ClosePrevent() {
-	}
+/**
+ * Prevent closing tab item in preview.
+ * 
+ * @author Jeeeyul
+ */
+public class ClosePrevent extends CTabFolder2Adapter {
 
 	@Override
 	public void close(CTabFolderEvent event) {
 		event.doit = false;
-	}
-
-	@Override
-	public void minimize(CTabFolderEvent event) {
-	}
-
-	@Override
-	public void maximize(CTabFolderEvent event) {
-	}
-
-	@Override
-	public void restore(CTabFolderEvent event) {
-	}
-
-	@Override
-	public void showList(CTabFolderEvent event) {
 	}
 
 }

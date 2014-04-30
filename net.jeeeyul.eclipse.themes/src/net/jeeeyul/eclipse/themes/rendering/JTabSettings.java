@@ -9,6 +9,13 @@ import net.jeeeyul.swtend.ui.HSB;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 
+/**
+ * settings for {@link JeeeyulsTabRenderer}
+ * 
+ * @author Jeeeyul
+ * @since 2.0.0
+ */
+@SuppressWarnings("javadoc")
 public class JTabSettings {
 	private int borderRadius = 2;
 	private Rectangle margins = SWTExtensions.INSTANCE.newInsets(2);
@@ -39,12 +46,12 @@ public class JTabSettings {
 	private int[] unselectedBorderPercents = new int[] { 100 };
 	private HSB[] hoverBorderColors = new HSB[] { HSB.GRAY, HSB.GRAY };
 	private int[] hoverBorderPercents = new int[] { 100 };
+	private HSB chevronColor = new HSB(0, 0, 0);
 	private Point selectedTextShadowPosition = new Point(0, 1);
 	private Point unselectedTextShadowPosition = new Point(0, 1);
 	private Point hoverTextShadowPosition = new Point(0, 1);
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private JeeeyulsTabRenderer renderer;
-
 	private Rectangle tabItemPaddings = new Rectangle(2, 0, 2, 0);
 
 	public JTabSettings(JeeeyulsTabRenderer renderer) {
@@ -83,6 +90,10 @@ public class JTabSettings {
 
 	public int getBorderWidth() {
 		return borderWidth;
+	}
+
+	public HSB getChevronColor() {
+		return chevronColor;
 	}
 
 	public HSB getCloseButtonActiveColor() {
@@ -240,13 +251,14 @@ public class JTabSettings {
 		pcs.firePropertyChange("border-radius", old, borderRadius);
 	}
 
-	public void setBorderWidth(int borderWidth) {
-		if (this.borderWidth == borderWidth) {
+	public void setChevronColor(HSB chrveronColor) {
+		if (areSame(this.chevronColor, chrveronColor)) {
 			return;
 		}
-		int old = this.borderWidth;
-		this.borderWidth = borderWidth;
-		pcs.firePropertyChange("border-width", old, borderWidth);
+
+		HSB old = this.chevronColor;
+		this.chevronColor = chrveronColor;
+		pcs.firePropertyChange("chevron-color", old, chrveronColor);
 	}
 
 	public void setCloseButtonActiveColor(HSB closeButtonActiveColor) {
@@ -514,5 +526,4 @@ public class JTabSettings {
 		this.unselectedTextShadowPosition = unselectedTextShadowPosition;
 		pcs.firePropertyChange("unselected-text-shadow-position", old, unselectedTextShadowPosition);
 	}
-
 }
